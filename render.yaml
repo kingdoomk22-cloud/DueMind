@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: duemind
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: DUEMIND_DATA_DIR
+        value: /var/data
+    disk:
+      name: duemind-data
+      mountPath: /var/data
+      sizeGB: 1

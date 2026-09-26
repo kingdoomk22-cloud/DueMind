@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#5b5ce2" />
+  <title>DueMind - AI payment follow-up assistant</title>
+  <meta name="description" content="DueMind helps freelancers and small agencies follow up on overdue invoices with clear actions, adaptive drafts, and promise-to-pay tracking." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <button class="brand brand-button" id="brandHome" aria-label="DueMind home">
+        <span class="brand-mark">D</span><span>DueMind</span>
+      </button>
+      <nav class="nav" id="publicNav">
+        <button class="nav-link" data-scroll="features">Features</button>
+        <button class="btn" id="loginBtn">Log in</button>
+        <button class="btn primary" id="startBtn">Start free</button>
+      </nav>
+      <nav class="nav hidden" id="appNav">
+        <span class="user-chip" id="userChip"></span>
+        <button class="btn" id="logoutBtn">Log out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="landingView">
+    <section class="hero container">
+      <div class="eyebrow">Payment follow-up without the awkward chasing</div>
+      <h1>Manage the conversation until you get paid.</h1>
+      <p class="hero-copy">DueMind turns overdue invoices into clear next steps, drafts the right follow-up, recognizes simple client replies, and remembers payment promises.</p>
+      <div class="hero-actions">
+        <button class="btn primary large" id="heroStart">Try the interactive MVP</button>
+        <button class="btn large" data-scroll="demo">See the workflow</button>
+      </div>
+      <p class="microcopy">Prototype: no real emails are sent and no card is required.</p>
+    </section>
+
+    <section class="container demo-wrap" id="demo">
+      <div class="demo-card">
+        <div class="demo-top">
+          <div>
+            <span class="label">TODAY</span>
+            <h2>3 actions need attention</h2>
+          </div>
+          <span class="status-dot"><i></i>Assistant ready</span>
+        </div>
+        <div class="demo-grid">
+          <article class="sample-action">
+            <div class="sample-row"><strong>Smith Agency</strong><span class="badge warn">7 days overdue</span></div>
+            <p>Invoice INV-1042 · $850</p>
+            <div class="recommendation">Recommended: professional reminder</div>
+            <button class="btn primary compact" id="demoDraftBtn">Preview draft</button>
+          </article>
+          <article class="sample-action">
+            <div class="sample-row"><strong>Acme Studio</strong><span class="badge good">Promise to pay</span></div>
+            <p>Invoice INV-1023 · $2,400</p>
+            <div class="recommendation">Client said: “We’ll pay Friday.”</div>
+            <button class="btn compact" data-scroll="features">See promise tracking</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="features">
+      <div class="section-head">
+        <span class="label">WHY DUEMIND</span>
+        <h2>Not another invoice scheduler.</h2>
+        <p>It is designed around the messy part: knowing what to say next, when to wait, and when a client has actually promised a payment date.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card"><span class="icon">01</span><h3>Today view</h3><p>See only the invoices that need action now instead of living inside a complicated accounting dashboard.</p></article>
+        <article class="feature-card"><span class="icon">02</span><h3>Adaptive follow-up</h3><p>Drafts shift from friendly to professional, firm, or final based on how late the invoice is.</p></article>
+        <article class="feature-card"><span class="icon">03</span><h3>Promise tracking</h3><p>Record simple replies like “I’ll pay Friday,” pause the chase, then surface the invoice again if the date passes.</p></article>
+        <article class="feature-card"><span class="icon">04</span><h3>Approval mode</h3><p>Keep a human in control. Review, edit, or skip each message before it is recorded.</p></article>
+        <article class="feature-card"><span class="icon">05</span><h3>Simple imports</h3><p>The prototype supports manual invoice entry now; CSV and PDF import are the next production step.</p></article>
+        <article class="feature-card"><span class="icon">06</span><h3>Built for small teams</h3><p>Focused on freelancers, consultants, and agencies that care more about getting paid than learning another ERP.</p></article>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="cta-panel">
+        <div><span class="label">INTERACTIVE MVP</span><h2>Try it with demo invoices.</h2><p>Create a local demo account and test the complete follow-up workflow in your browser.</p></div>
+        <button class="btn primary large" id="ctaStart">Open DueMind</button>
+      </div>
+    </section>
+  </main>
+
+  <main id="appView" class="hidden">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="workspace-card"><span>WORKSPACE</span><strong id="workspaceName">My Business</strong><small>Local MVP</small></div>
+        <button class="side-link active" data-view="today">Today <span id="navActionCount">0</span></button>
+        <button class="side-link" data-view="invoices">Invoices <span id="navInvoiceCount">0</span></button>
+        <button class="side-link" data-view="templates">Templates</button>
+        <button class="side-link" data-view="settings">Settings</button>
+      </aside>
+
+      <section class="app-main">
+        <div id="todaySection" class="app-section">
+          <div class="app-heading"><div><span class="label">TODAY</span><h1>What needs attention</h1><p>Only the invoices that need a decision now.</p></div><button class="btn primary" id="addInvoiceToday">+ Add invoice</button></div>
+          <div class="stats-grid">
+            <article class="stat-card"><span>Outstanding</span><strong id="statOutstanding">$0</strong><small>Open invoices</small></article>
+            <article class="stat-card"><span>Overdue</span><strong id="statOverdue">$0</strong><small>Past due</small></article>
+            <article class="stat-card"><span>Actions today</span><strong id="statActions">0</strong><small>Need review</small></article>
+            <article class="stat-card"><span>Promises</span><strong id="statPromises">0</strong><small>Waiting on payment</small></article>
+          </div>
+          <div class="two-col">
+            <section class="panel"><div class="panel-title"><div><h2>Recommended actions</h2><p>Draft, wait, or close the loop.</p></div></div><div id="actionsList"></div></section>
+            <aside class="panel"><div class="panel-title"><div><h2>Workflow health</h2><p>A simple operational snapshot.</p></div></div><div id="healthPanel"></div></aside>
+          </div>
+        </div>
+
+        <div id="invoicesSection" class="app-section hidden">
+          <div class="app-heading"><div><span class="label">INVOICES</span><h1>All invoices</h1><p>Track status, due dates, reminders, and payment promises.</p></div><button class="btn primary" id="addInvoiceInvoices">+ Add invoice</button></div>
+          <section class="panel">
+            <div class="toolbar"><input id="invoiceSearch" class="search-input" placeholder="Search client or invoice..." /><select id="invoiceFilter"><option value="all">All statuses</option><option value="open">Open</option><option value="promised">Promised</option><option value="paid">Paid</option></select></div>
+            <div class="table-wrap"><table class="invoice-table"><thead><tr><th>Client</th><th>Invoice</th><th>Amount</th><th>Due</th><th>Status</th><th>Actions</th></tr></thead><tbody id="invoiceRows"></tbody></table></div>
+            <div id="invoiceEmpty" class="empty-state hidden"><strong>No invoices found.</strong><span>Change the filter or add a new invoice.</span></div>
+          </section>
+        </div>
+
+        <div id="templatesSection" class="app-section hidden">
+          <div class="app-heading"><div><span class="label">TEMPLATES</span><h1>Follow-up playbook</h1><p>Edit the wording used for each stage. Variables are filled automatically.</p></div><button class="btn" id="resetTemplates">Reset defaults</button></div>
+          <div class="template-grid" id="templateGrid"></div>
+        </div>
+
+        <div id="settingsSection" class="app-section hidden">
+          <div class="app-heading"><div><span class="label">SETTINGS</span><h1>Workspace settings</h1><p>These settings are stored only in this browser in the MVP.</p></div></div>
+          <section class="panel settings-panel">
+            <div class="settings-grid">
+              <label>Business name<input id="settingsBusiness" /></label>
+              <label>Sender name<input id="settingsSender" /></label>
+              <label>Default tone<select id="settingsTone"><option value="adaptive">Adaptive by days overdue</option><option value="friendly">Always friendly</option><option value="professional">Always professional</option></select></label>
+              <label>Currency<select id="settingsCurrency"><option>USD</option><option>EUR</option><option>GBP</option><option>AED</option></select></label>
+            </div>
+            <div class="settings-actions"><button class="btn primary" id="saveSettings">Save settings</button><button class="btn" id="exportData">Export demo data</button><button class="btn danger" id="resetData">Reset demo</button></div>
+          </section>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal-backdrop hidden" id="authModal" role="dialog" aria-modal="true">
+    <div class="modal auth-modal">
+      <button class="icon-button close" data-close="authModal">×</button>
+      <span class="label">LOCAL DEMO ACCOUNT</span>
+      <h2 id="authTitle">Create your DueMind demo</h2>
+      <p id="authIntro">No email is sent. Your demo account lives only in this browser.</p>
+      <form id="authForm" class="form-stack">
+        <label id="nameField">Your name<input id="authName" placeholder="Yusuf" /></label>
+        <label>Email<input id="authEmail" type="email" required placeholder="you@example.com" /></label>
+        <label>Password<input id="authPassword" type="password" minlength="4" required placeholder="Minimum 4 characters" /></label>
+        <button class="btn primary full" type="submit" id="authSubmit">Create demo account</button>
+      </form>
+      <button class="text-button" id="toggleAuthMode">Already have a local demo account? Log in</button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="invoiceModal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <button class="icon-button close" data-close="invoiceModal">×</button>
+      <span class="label">INVOICE</span><h2 id="invoiceModalTitle">Add invoice</h2><p>The MVP generates the next follow-up based on the due date and status.</p>
+      <form id="invoiceForm">
+        <input type="hidden" id="invoiceId" />
+        <div class="form-grid">
+          <label>Client name *<input id="clientName" required placeholder="Acme Studio" /></label>
+          <label>Client email<input id="clientEmail" type="email" placeholder="billing@example.com" /></label>
+          <label>Invoice number *<input id="invoiceNumber" required placeholder="INV-1023" /></label>
+          <label>Amount *<input id="invoiceAmount" type="number" min="0" step="0.01" required placeholder="2400" /></label>
+          <label>Currency<select id="invoiceCurrency"><option>USD</option><option>EUR</option><option>GBP</option><option>AED</option></select></label>
+          <label>Due date *<input id="invoiceDue" type="date" required /></label>
+          <label class="full-field">Payment link or note<input id="invoicePayLink" placeholder="https://... or bank transfer details" /></label>
+        </div>
+        <div class="modal-actions"><button type="button" class="btn" data-close="invoiceModal">Cancel</button><button class="btn primary" type="submit">Save invoice</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="followupModal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <button class="icon-button close" data-close="followupModal">×</button>
+      <span class="label">FOLLOW-UP DRAFT</span><h2 id="followupTitle">Review before sending</h2><p id="followupSub"></p>
+      <div class="prototype-note">Prototype: “Approve & record” does not send an email. It only saves the action locally.</div>
+      <label>Subject<input id="followupSubject" /></label>
+      <label>Message<textarea id="followupText" rows="10"></textarea></label>
+      <div class="modal-actions"><button class="btn" id="copyDraftBtn">Copy</button><button class="btn" data-close="followupModal">Cancel</button><button class="btn primary" id="approveDraftBtn">Approve & record</button></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="replyModal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <button class="icon-button close" data-close="replyModal">×</button>
+      <span class="label">REPLY ANALYZER</span><h2>Simulate a client reply</h2><p>Try: “We will pay Friday”, “Paid today”, or “I dispute this invoice.”</p>
+      <label>Client reply<textarea id="replyText" rows="6" placeholder="We will pay next Friday."></textarea></label>
+      <div class="modal-actions"><button class="btn" data-close="replyModal">Cancel</button><button class="btn primary" id="analyzeReplyBtn">Analyze reply</button></div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

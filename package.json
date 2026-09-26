@@ -1,0 +1,14 @@
+{
+  "name": "duemind-mvp-v4",
+  "version": "0.4.0",
+  "private": true,
+  "description": "DueMind server-backed MVP with Node.js built-ins and SQLite",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}
